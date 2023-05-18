@@ -1,0 +1,16 @@
+# validate the syntax
+terraform validate
+
+# pretty format
+terraform fmt
+
+# show all the meta information
+terraform show
+
+# show providers
+terraform providers
+
+# show in graph(you need to install graphviz)
+terraform graph
+terraform graph | dot -Tsvg > sample.svg
+
