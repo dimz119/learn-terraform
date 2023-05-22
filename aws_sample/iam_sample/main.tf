@@ -26,23 +26,25 @@ resource "aws_iam_policy" "developer_policy" {
   name        = "developer_policy"
   path        = "/system/"
   description = "developer policy"
-  
+  #   policy      = file("developer_policy.json")
+
   # Heredoc syntax
   policy = <<EOF
 {
-  "Version": "2012-10-17",
-  "Statement": [
+"Version": "2012-10-17",
+"Statement": [
     {
-      "Action": [
+    "Action": [
         "s3:ListAllMyBuckets"
-      ],
-      "Effect": "Allow",
-      "Resource": "*"
+    ],
+    "Effect": "Allow",
+    "Resource": "*"
     }
-  ]
+]
 }
 EOF
 }
+
 
 resource "aws_iam_group_policy_attachment" "developer_group_policy_attachment" {
   group      = aws_iam_group.developer_group.name
