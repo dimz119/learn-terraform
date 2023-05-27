@@ -47,3 +47,7 @@ resource "aws_s3_bucket_policy" "bucket-policy" {
 }
 POLICY
 }
+
+# resource "aws_s3_bucket" "learn-terraform-yourbucket" {
+#   # (resource arguments)
+# }

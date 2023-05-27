@@ -1,0 +1,194 @@
+$ terraform state list
+
+aws_s3_bucket.learn-terraform-mybucket
+aws_s3_bucket_policy.bucket-policy
+aws_s3_bucket_public_access_block.public-access
+aws_s3_object.learn-terraform-sample-txt
+
+$ terraform state show aws_s3_bucket.learn-terraform-mybucket
+# aws_s3_bucket.learn-terraform-mybucket:
+resource "aws_s3_bucket" "learn-terraform-mybucket" {
+    arn                         = "arn:aws:s3:::learn-terraform-mybucket"
+    bucket                      = "learn-terraform-mybucket"
+    bucket_domain_name          = "learn-terraform-mybucket.s3.amazonaws.com"
+    bucket_regional_domain_name = "learn-terraform-mybucket.s3.us-west-2.amazonaws.com"
+    force_destroy               = false
+    hosted_zone_id              = "Z3BJ6K6RIION7M"
+    id                          = "learn-terraform-mybucket"
+    object_lock_enabled         = false
+    region                      = "us-west-2"
+    request_payer               = "BucketOwner"
+    tags                        = {
+        "environment" = "devel"
+    }
+    tags_all                    = {
+        "environment" = "devel"
+    }
+
+    grant {
+        id          = "4470671a3696da88fc69b9107e12940aae629907c958bfe3df524497f1377ed9"
+        permissions = [
+            "FULL_CONTROL",
+        ]
+        type        = "CanonicalUser"
+    }
+
+    server_side_encryption_configuration {
+        rule {
+            bucket_key_enabled = false
+
+            apply_server_side_encryption_by_default {
+                sse_algorithm = "AES256"
+            }
+        }
+    }
+
+    versioning {
+        enabled    = false
+        mfa_delete = false
+    }
+}
+
+
+# To view a list of resources and their current state, use the following command:
+terraform state list
+
+# To get detailed information about a specific resource
+terraform state show <resource_name>
+
+# To import resouces
+terraform import <resource_type>.<resource_name> <resource_id>
+# $ terraform import aws_s3_bucket.learn-terraform-yourbucket learn-terraform-yourbucket
+# Error: resource address "aws_s3_bucket.learn-terraform-yourbucket" does not exist in the configuration.
+
+# Before importing this resource, please create its configuration in the root module. For example:
+
+# resource "aws_s3_bucket" "learn-terraform-yourbucket" {
+#   # (resource arguments)
+# }
+
+# $ terraform import aws_s3_bucket.learn-terraform-yourbucket learn-terraform-yourbucket
+# aws_s3_bucket.learn-terraform-yourbucket: Importing from ID "learn-terraform-yourbucket"...
+# aws_s3_bucket.learn-terraform-yourbucket: Import prepared!
+#   Prepared aws_s3_bucket for import
+# aws_s3_bucket.learn-terraform-yourbucket: Refreshing state... [id=learn-terraform-yourbucket]
+
+# Import successful!
+
+# The resources that were imported are shown above. These resources are now in
+# your Terraform state and will henceforth be managed by Terraform.
+
+# To move resources
+terraform state mv <resource_address> <new_resource_address>
+# $ terraform state mv aws_dynamodb_table.state-lock aws_dynamodb_table.state-lock-table
+# Move "aws_dynamodb_table.state-lock" to "aws_dynamodb_table.state-lock-table"
+# Successfully moved 1 object(s).
+
+# $ terraform apply
+# aws_dynamodb_table.state-lock-table: Refreshing state... [id=state-lock]
+
+# No changes. Your infrastructure matches the configuration.
+
+# Terraform has compared your real infrastructure against your configuration and found no
+# differences, so no changes are needed.
+
+# Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+
+# To pull remote state
+terraform state pull
+# {
+#   "version": 4,
+#   "terraform_version": "1.4.6",
+#   "serial": 1,
+#   "lineage": "0f72f195-ef0d-744a-e039-2aa9396d360d",
+#   "outputs": {},
+#   "resources": [
+#     {
+#       "mode": "managed",
+#       "type": "aws_s3_bucket",
+#       "name": "learn-terraform-ourbucket",
+#       "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+#       "instances": [
+#         {
+#           "schema_version": 0,
+#           "attributes": {
+#             "acceleration_status": "",
+#             "acl": null,
+#             "arn": "arn:aws:s3:::learn-terraform-ourbucket",
+#             "bucket": "learn-terraform-ourbucket",
+#             "bucket_domain_name": "learn-terraform-ourbucket.s3.amazonaws.com",
+#             "bucket_prefix": "",
+#             "bucket_regional_domain_name": "learn-terraform-ourbucket.s3.us-west-2.amazonaws.com",
+#             "cors_rule": [],
+#             "force_destroy": false,
+#             "grant": [
+#               {
+#                 "id": "4470671a3696da88fc69b9107e12940aae629907c958bfe3df524497f1377ed9",
+#                 "permissions": [
+#                   "FULL_CONTROL"
+#                 ],
+#                 "type": "CanonicalUser",
+#                 "uri": ""
+#               }
+#             ],
+#             "hosted_zone_id": "Z3BJ6K6RIION7M",
+#             "id": "learn-terraform-ourbucket",
+#             "lifecycle_rule": [],
+#             "logging": [],
+#             "object_lock_configuration": [],
+#             "object_lock_enabled": false,
+#             "policy": "",
+#             "region": "us-west-2",
+#             "replication_configuration": [],
+#             "request_payer": "BucketOwner",
+#             "server_side_encryption_configuration": [
+#               {
+#                 "rule": [
+#                   {
+#                     "apply_server_side_encryption_by_default": [
+#                       {
+#                         "kms_master_key_id": "",
+#                         "sse_algorithm": "AES256"
+#                       }
+#                     ],
+#                     "bucket_key_enabled": false
+#                   }
+#                 ]
+#               }
+#             ],
+#             "tags": null,
+#             "tags_all": {},
+#             "timeouts": null,
+#             "versioning": [
+#               {
+#                 "enabled": false,
+#                 "mfa_delete": false
+#               }
+#             ],
+#             "website": [],
+#             "website_domain": null,
+#             "website_endpoint": null
+#           },
+#           "sensitive_attributes": [],
+#           "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjM2MDAwMDAwMDAwMDAsInJlYWQiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19"
+#         }
+#       ]
+#     }
+#   ],
+#   "check_results": null
+# }
+
+# To remove resource
+terraform state rm <resource_address>
+# $ terraform state rm aws_s3_bucket.learn-terraform-ourbucket
+# Removed aws_s3_bucket.learn-terraform-ourbucket
+# Successfully removed 1 resource instance(s).
+
+# $ terraform destroy
+
+# No changes. No objects need to be destroyed.
+
+# Either you have not created any objects yet or the existing objects were already deleted
+# outside of Terraform.
+
+# Destroy complete! Resources: 0 destroyed.
