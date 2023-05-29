@@ -1,0 +1,37 @@
+$ terraform apply
+aws_instance.web: Provisioning with 'local-exec'...
+aws_instance.web (local-exec): Executing: ["/bin/sh" "-c" "echo 35.161.77.233 >> /temp/public_ip.txt"]
+aws_instance.web (local-exec): /bin/sh: /temp/public_ip.txt: No such file or directory
+╷
+│ Error: local-exec provisioner error
+│
+│   with aws_instance.web,
+│   on main.tf line 74, in resource "aws_instance" "web":
+│   74:   provisioner "local-exec" {
+│
+│ Error running command 'echo 35.161.77.233 >> /temp/public_ip.txt': exit status 1. Output:
+│ /bin/sh: /temp/public_ip.txt: No such file or directory
+│
+
+
+
+$ terraform apply
+...
+Terraform used the selected providers to generate the following execution plan. Resource
+actions are indicated with the following symbols:
+-/+ destroy and then create replacement
+
+Terraform will perform the following actions:
+
+  # aws_instance.web is tainted, so must be replaced
+-/+ resource "aws_instance" "web" {
+      ~ arn                                  = "arn:aws:ec2:us-west-2:365399126646:instance/i-05be6f569617c8c2e" -> (known after apply)
+      ~ associate_public_ip_address          = true -> (known after apply)
+      ~ availability_zone                    = "us-west-2a" -> (known after apply)
+
+
+$ terraform taint aws_instance.web
+Resource instance aws_instance.web has been marked as tainted.
+
+$ terraform untaint aws_instance.web
+Resource instance aws_instance.web has been successfully untainted.
