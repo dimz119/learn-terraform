@@ -50,39 +50,39 @@ resource "aws_instance" "web" {
   # for aws_instance only
   # azure: custom_data
   # gcp: meta_data
-  # user_data = <<-EOF
-  #   #! /bin/bash
-  #   sudo yum update
-  #   sudo yum install nginx -y
-  #   sudo service nginx start
-  #   sudo chkconfig nginx on
-  #   sudo service nginx status
-  # EOF
+  user_data = <<-EOF
+    #! /bin/bash
+    sudo yum update
+    sudo yum install nginx -y
+    sudo service nginx start
+    sudo chkconfig nginx on
+    sudo service nginx status
+  EOF
 
-  provisioner "remote-exec" {
-    inline = [
-      "sudo yum update",
-      "sudo yum install nginx -y",
-      "sudo service nginx start",
-      "sudo chkconfig nginx on"
-    ]
-  }
-  connection {
-    type        = "ssh"
-    host        = self.public_ip
-    user        = "ec2-user"
-    private_key = file("/Users/seungjoonlee/.ssh/id_rsa")
-  }
+  # provisioner "remote-exec" {
+  #   inline = [
+  #     "sudo yum update",
+  #     "sudo yum install nginx -y",
+  #     "sudo service nginx start",
+  #     "sudo chkconfig nginx on"
+  #   ]
+  # }
+  # connection {
+  #   type        = "ssh"
+  #   host        = self.public_ip
+  #   user        = "ec2-user"
+  #   private_key = file("/Users/seungjoonlee/.ssh/id_rsa")
+  # }
 
-  provisioner "local-exec" {
-    on_failure = fail
-    command = "echo ${aws_instance.web.public_ip} >> /tmp/public_ip.txt"
-  }
+  # provisioner "local-exec" {
+  #   on_failure = fail
+  #   command = "echo ${aws_instance.web.public_ip} >> /tmp/public_ip.txt"
+  # }
 
-  provisioner "local-exec" {
-    when = destroy
-    command = "rm -f /tmp/public_ip.txt"
-  }
+  # provisioner "local-exec" {
+  #   when = destroy
+  #   command = "rm -f /tmp/public_ip.txt"
+  # }
 
   vpc_security_group_ids = [aws_security_group.ssh-access.id, aws_security_group.nginx-access.id]
 }
