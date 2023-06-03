@@ -1,3 +1,9 @@
+# learn-terraform
+
+online course code material from https://inf.run/YhJa
+
+Thanks for registering the course!
+
 ## installation
 ```
 brew tap hashicorp/tap
