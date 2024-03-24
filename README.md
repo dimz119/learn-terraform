@@ -14,14 +14,14 @@ $ terraform --version
 Terraform v1.4.6
 on darwin_arm64
 
-# initialize terraform
+## initialize terraform
 $ terraform init
 
-# review the configuration
+## review the configuration
 $ terraform plan
 
-# apply the configuration
+## apply the configuration
 $ terraform apply
 
-# remove the configuration
+## remove the configuration
 $ terraform destroy
